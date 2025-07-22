@@ -10,14 +10,20 @@ public class RefreshRatePlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "RefreshRatePlugin"
     public let jsName = "RefreshRate"
     public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "echo", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "setRefreshRate", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "resetRefreshRate", returnType: CAPPluginReturnPromise)
     ]
+
     private let implementation = RefreshRate()
 
-    @objc func echo(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
-        call.resolve([
-            "value": implementation.echo(value)
-        ])
+    @objc public func setRefreshRate(_ call: CAPPluginCall) {
+        let hz = call.getDouble("hz") ?? 60.0
+        implementation.setRefreshRate(hz: hz, webView: self.bridge?.webView)
+        call.resolve()
+    }
+
+    @objc public func resetRefreshRate(_ call: CAPPluginCall) {
+        implementation.resetRefreshRate(webView: self.bridge?.webView)
+        call.resolve()
     }
 }

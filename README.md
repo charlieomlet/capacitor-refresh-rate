@@ -13,24 +13,36 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
+* [`setRefreshRate(...)`](#setrefreshrate)
+* [`resetRefreshRate()`](#resetrefreshrate)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
+### setRefreshRate(...)
 
 ```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
+setRefreshRate(options: { hz: number; }) => Promise<void>
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
+Sets the refresh rate of the display.
 
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+| Param         | Type                         | Description                                    |
+| ------------- | ---------------------------- | ---------------------------------------------- |
+| **`options`** | <code>{ hz: number; }</code> | - An object containing the refresh rate in Hz. |
+
+--------------------
+
+
+### resetRefreshRate()
+
+```typescript
+resetRefreshRate() => Promise<void>
+```
+
+Resets the refresh rate to the default value.
 
 --------------------
 
