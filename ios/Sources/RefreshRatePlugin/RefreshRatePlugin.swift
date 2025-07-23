@@ -18,12 +18,12 @@ public class RefreshRatePlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc public func setRefreshRate(_ call: CAPPluginCall) {
         let hz = call.getDouble("hz") ?? 60.0
-        implementation.setRefreshRate(hz: hz, webView: self.bridge?.webView)
+        implementation.setRefreshRate(hz: hz)
         call.resolve()
     }
 
     @objc public func resetRefreshRate(_ call: CAPPluginCall) {
-        implementation.resetRefreshRate(webView: self.bridge?.webView)
+        implementation.resetRefreshRate()
         call.resolve()
     }
 }
