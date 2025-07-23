@@ -3,18 +3,18 @@ import QuartzCore
 import WebKit
 
 @objc public class RefreshRate: NSObject {
-    // Must be Any? to compile on iOS < 15
     private var originalRange: Any? = nil
 
     @objc public func setRefreshRate(hz: Double, webView: WKWebView?) {
         DispatchQueue.main.async {
             guard #available(iOS 15.0, *), let webView = webView else { return }
 
+            let view = webView as UIView
             if self.originalRange == nil {
-                self.originalRange = webView.preferredFrameRateRange
+                self.originalRange = view.preferredFrameRateRange
             }
 
-            webView.preferredFrameRateRange = CAFrameRateRange(
+            view.preferredFrameRateRange = CAFrameRateRange(
                 minimum: Float(hz),
                 maximum: Float(hz),
                 preferred: Float(hz)
@@ -30,7 +30,8 @@ import WebKit
                 return
             }
 
-            webView.preferredFrameRateRange = saved
+            let view = webView as UIView
+            view.preferredFrameRateRange = saved
             self.originalRange = nil
         }
     }
