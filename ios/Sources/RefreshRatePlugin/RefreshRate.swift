@@ -1,55 +1,52 @@
 import Foundation
 import QuartzCore
-import WebKit
 
 @objc public class RefreshRate: NSObject {
     private var displayLink: CADisplayLink?
-    private var originalRange: CAFrameRateRange?
+    private var originalRange: Any?
 
     @objc public func setRefreshRate(hz: Double) {
         guard #available(iOS 15.0, *) else { return }
 
-        // Stop any existing display link
+        // Invalidate any existing display link
         displayLink?.invalidate()
 
         // Create new display link
-        displayLink = CADisplayLink(target: self, selector: #selector(self.tick))
-        
-        // Save original range the first time
+        let link = CADisplayLink(target: self, selector: #selector(self.tick))
+
+        // Save original range if not already stored
         if originalRange == nil {
-            originalRange = displayLink?.preferredFrameRateRange
+            originalRange = link.preferredFrameRateRange
         }
 
-        // Set the new preferred refresh rate
-        displayLink?.preferredFrameRateRange = CAFrameRateRange(
+        // Set new desired frame rate range
+        link.preferredFrameRateRange = CAFrameRateRange(
             minimum: Float(hz),
             maximum: Float(hz),
             preferred: Float(hz)
         )
 
-        // Add to run loop to activate it
-        displayLink?.add(to: .main, forMode: .common)
+        link.add(to: .main, forMode: .common)
+        displayLink = link
     }
 
     @objc public func resetRefreshRate() {
         guard #available(iOS 15.0, *) else { return }
 
-        // Invalidate current display link
         displayLink?.invalidate()
 
-        // Restore original frame rate range if we saved it
-        if let original = originalRange {
-            displayLink = CADisplayLink(target: self, selector: #selector(self.tick))
-            displayLink?.preferredFrameRateRange = original
-            displayLink?.add(to: .main, forMode: .common)
+        // Restore original frame rate range if available
+        if let saved = originalRange as? CAFrameRateRange {
+            let link = CADisplayLink(target: self, selector: #selector(self.tick))
+            link.preferredFrameRateRange = saved
+            link.add(to: .main, forMode: .common)
+            displayLink = link
         }
 
-        // Clear stored values
         originalRange = nil
     }
 
-    // No-op tick method — required for CADisplayLink target
     @objc private func tick() {
-        // Intentionally empty
+        // Required by CADisplayLink; intentionally empty
     }
 }
