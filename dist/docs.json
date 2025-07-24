@@ -1,0 +1,46 @@
+{
+  "api": {
+    "name": "RefreshRatePlugin",
+    "slug": "refreshrateplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "setRefreshRate",
+        "signature": "(options: { hz: number; }) => Promise<void>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "- An object containing the refresh rate in Hz.",
+            "type": "{ hz: number; }"
+          }
+        ],
+        "returns": "Promise<void>",
+        "tags": [
+          {
+            "name": "param",
+            "text": "options - An object containing the refresh rate in Hz."
+          }
+        ],
+        "docs": "Sets the refresh rate of the display.",
+        "complexTypes": [],
+        "slug": "setrefreshrate"
+      },
+      {
+        "name": "resetRefreshRate",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "Resets the refresh rate to the default value.",
+        "complexTypes": [],
+        "slug": "resetrefreshrate"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [],
+  "enums": [],
+  "typeAliases": [],
+  "pluginConfigs": []
+}
